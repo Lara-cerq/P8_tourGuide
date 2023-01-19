@@ -16,4 +16,4 @@ cache:
 build:
   stage: build
   script:
-    - echo "Bonjour"
+    - gradle build
