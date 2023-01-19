@@ -16,4 +16,4 @@ cache:
 build:
   stage: build
   script:
-    - gradle build
+    - gradle assemble
