@@ -46,7 +46,6 @@ public class TestPerformance {
 	 */
 
 	@Test
-	@Ignore
 	public void highVolumeTrackLocation() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -69,6 +68,7 @@ public class TestPerformance {
 		assertTrue(TimeUnit.MINUTES.toSeconds(15) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	}
 
+	@Ignore
 	@Test
 	public void highVolumeGetRewards() {
 		GpsUtilService gpsUtil = new GpsUtilService();
