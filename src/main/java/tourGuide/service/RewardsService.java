@@ -67,14 +67,6 @@ public class RewardsService {
 					userReward.setRewardPoints(points);
 					user.addUserReward(userReward);
 					executor.shutdown();
-					try {
-						if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
-							executor.shutdownNow();
-						}
-					} catch (InterruptedException ex) {
-						executor.shutdownNow();
-						Thread.currentThread().interrupt();
-					}
 				});
 	}
 
