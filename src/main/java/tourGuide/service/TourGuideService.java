@@ -3,6 +3,11 @@ package tourGuide.service;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -29,6 +34,9 @@ public class TourGuideService {
 	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
+	private List<VisitedLocation> visitedLocations = new ArrayList<>();
+	private List<Provider> tripDeals = new ArrayList<>();
+	private Lock userLocationListLock= new ReentrantLock();
 	
 	public TourGuideService(GpsUtilService gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;

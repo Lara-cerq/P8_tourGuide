@@ -60,17 +60,19 @@ public class User {
 		return latestLocationTimestamp;
 	}
 	
-	public void addToVisitedLocations(VisitedLocation visitedLocation) {
+	public List<VisitedLocation> addToVisitedLocations(VisitedLocation visitedLocation) {
 		userLocationListLock.lock();
 		visitedLocations.add(visitedLocation);
 		userLocationListLock.unlock();
+		return visitedLocations;
 	}
 	public List<VisitedLocation> getVisitedLocations() {
 		return visitedLocations;
 	}
 	
-	public void clearVisitedLocations() {
+	public List<VisitedLocation> clearVisitedLocations() {
 		visitedLocations.clear();
+		return visitedLocations;
 	}
 	
 	public void addUserReward(UserReward userReward) {

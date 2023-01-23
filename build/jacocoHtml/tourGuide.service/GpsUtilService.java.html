@@ -47,11 +47,11 @@ public class GpsUtilService {
 //	}
 	
 	public void userLocation(User user, TourGuideService tourGuideService) {
-<span class="nc" id="L50">		CompletableFuture.supplyAsync(() -&gt; {</span>
+<span class="fc" id="L50">		CompletableFuture.supplyAsync(() -&gt; {</span>
 <span class="nc" id="L51">		    return gpsUtil.getUserLocation(user.getUserId());</span>
 		}, executor)
-<span class="nc" id="L53">			.thenAccept(visitedLocation -&gt; { tourGuideService.trackUserLocation(user); });</span>
-<span class="nc" id="L54">	}</span>
+<span class="pc" id="L53">			.thenAccept(visitedLocation -&gt; { tourGuideService.trackUserLocation(user); });</span>
+<span class="fc" id="L54">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

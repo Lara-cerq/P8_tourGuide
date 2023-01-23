@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -25,10 +23,12 @@ public class RewardsService {
 
 	private int attractionProximityRange = 200;
 
-	private ExecutorService executor = Executors.newFixedThreadPool(100000
+	private ExecutorService executor = Executors.newFixedThreadPool(10000
 	);
 	private final GpsUtilService gpsUtil;
 	private final RewardCentral rewardsCentral;
+
+	private User user;
 	
 	public RewardsService(GpsUtilService gpsUtil, RewardCentral rewardCentral) {
 		this.gpsUtil = gpsUtil;
@@ -37,6 +37,22 @@ public class RewardsService {
 	
 	public void setProximityMilesBuffer(int proximityMilesBuffer) {
 		this.proximityMilesBuffer = proximityMilesBuffer;
+	}
+
+	public void addToVisitedLocations(VisitedLocation visitedLocation) {
+		ExecutorService executor = Executors.newFixedThreadPool(10000);
+		CompletableFuture.supplyAsync(() -> {
+					return user.addToVisitedLocations(visitedLocation);
+				}, executor)
+				.thenAccept(points -> user.getVisitedLocations());
+	}
+
+	public void clearVisitedLocations() {
+		ExecutorService executor = Executors.newFixedThreadPool(10000);
+		CompletableFuture.supplyAsync(() -> {
+					return user.clearVisitedLocations();
+				}, executor)
+				.thenAccept(points -> user.getVisitedLocations());
 	}
 
 	public void calculateRewards(User user) {
