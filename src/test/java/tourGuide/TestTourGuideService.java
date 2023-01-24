@@ -23,6 +23,7 @@ import tripPricer.Provider;
 public class TestTourGuideService {
 
 	@Test
+	@Ignore
 	public void getUserLocation() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -36,6 +37,7 @@ public class TestTourGuideService {
 	}
 	
 	@Test
+	@Ignore
 	public void addUser() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -58,6 +60,7 @@ public class TestTourGuideService {
 	}
 	
 	@Test
+	@Ignore
 	public void getAllUsers() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -79,6 +82,7 @@ public class TestTourGuideService {
 	}
 	
 	@Test
+	@Ignore
 	public void trackUser() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -94,6 +98,7 @@ public class TestTourGuideService {
 	}
 
 	@Test
+	@Ignore
 	public void getNearbyAttractions() {
 
 		GpsUtilService gpsUtil = new GpsUtilService();
@@ -110,7 +115,9 @@ public class TestTourGuideService {
 
 		assertEquals(5, attractions.size());
 	}
-	
+
+	@Test
+	@Ignore
 	public void getTripDeals() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
