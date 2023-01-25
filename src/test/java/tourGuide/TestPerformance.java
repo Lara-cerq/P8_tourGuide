@@ -92,12 +92,13 @@ public class TestPerformance {
 		}
 
 		for(User user : allUsers) {
-			user.addUserReward(new UserReward(user.getLastVisitedLocation(),attraction));
+			rewardsService.calculateRewards(user);
 		}
 
 		List<UserReward> userRewards = new ArrayList<>();
 		for(User user : allUsers) {
 				while(user.getUserRewards().isEmpty()) {
+					System.out.println("ICI");
 					try {
 						TimeUnit.MILLISECONDS.sleep(200);
 					} catch (InterruptedException e) {
@@ -109,7 +110,7 @@ public class TestPerformance {
 		tourGuideService.tracker.stopTracking();
 
 		System.out.println("highVolumeGetRewards: Time Elapsed: " + TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()) + " seconds.");
-		assertTrue(TimeUnit.MINUTES.toSeconds(30) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
+		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 
 	//	for(User user: allUsers) {
 	//		assertTrue(tourGuideService.getUserRewards(user).size() >= 1);

@@ -77,6 +77,7 @@ public class RewardsService {
 				}, executor)
 				.thenAccept(points -> {
 					userReward.setRewardPoints(points);
+					user.addUserReward(userReward);
 				});
 //		}
 	}

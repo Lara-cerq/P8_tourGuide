@@ -77,52 +77,53 @@ public class RewardsService {
 				}, executor)
 <span class="fc" id="L78">				.thenAccept(points -&gt; {</span>
 <span class="fc" id="L79">					userReward.setRewardPoints(points);</span>
-<span class="fc" id="L80">				});</span>
+<span class="fc" id="L80">					user.addUserReward(userReward);</span>
+<span class="fc" id="L81">				});</span>
 //		}
-<span class="fc" id="L82">	}</span>
+<span class="fc" id="L83">	}</span>
 
 	private void setRewardPoints(UserReward userReward, Attraction attraction, User user) {
-<span class="nc" id="L85">		CompletableFuture.supplyAsync(() -&gt; {</span>
-<span class="nc" id="L86">					return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());</span>
+<span class="nc" id="L86">		CompletableFuture.supplyAsync(() -&gt; {</span>
+<span class="nc" id="L87">					return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());</span>
 				}, executor)
-<span class="nc" id="L88">				.thenAccept(points -&gt; {</span>
-<span class="nc" id="L89">					userReward.setRewardPoints(points);</span>
-<span class="nc" id="L90">				});</span>
-<span class="nc" id="L91">	}</span>
+<span class="nc" id="L89">				.thenAccept(points -&gt; {</span>
+<span class="nc" id="L90">					userReward.setRewardPoints(points);</span>
+<span class="nc" id="L91">				});</span>
+<span class="nc" id="L92">	}</span>
 
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
-<span class="nc bnc" id="L94" title="All 2 branches missed.">		return getDistance(attraction, location) &gt; attractionProximityRange ? false : true;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		return getDistance(attraction, location) &gt; attractionProximityRange ? false : true;</span>
 	}
 
 	public double isWithinAttractionProximityDistance(Attraction attraction, Location location) {
-<span class="nc" id="L98">		return getDistance(attraction, location);</span>
+<span class="nc" id="L99">		return getDistance(attraction, location);</span>
 	}
 
 	public boolean isAttractionProximity(Attraction attraction, Location location) {
-<span class="nc bnc" id="L102" title="All 2 branches missed.">		return getDistance(attraction, location) &gt; 0 ? false : true;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		return getDistance(attraction, location) &gt; 0 ? false : true;</span>
 	}
 	
 	public boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
-<span class="nc bnc" id="L106" title="All 2 branches missed.">		return getDistance(attraction, visitedLocation.location) &gt; proximityMilesBuffer ? false : true;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		return getDistance(attraction, visitedLocation.location) &gt; proximityMilesBuffer ? false : true;</span>
 	}
 
 	// change this to public ?
 	public int getRewardPoints(Attraction attraction, User user) {
-<span class="nc" id="L111">		return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());</span>
+<span class="nc" id="L112">		return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());</span>
 	}
 	
 	public double getDistance(Location loc1, Location loc2) {
-<span class="fc" id="L115">        double lat1 = Math.toRadians(loc1.latitude);</span>
-<span class="fc" id="L116">        double lon1 = Math.toRadians(loc1.longitude);</span>
-<span class="fc" id="L117">        double lat2 = Math.toRadians(loc2.latitude);</span>
-<span class="fc" id="L118">        double lon2 = Math.toRadians(loc2.longitude);</span>
+<span class="fc" id="L116">        double lat1 = Math.toRadians(loc1.latitude);</span>
+<span class="fc" id="L117">        double lon1 = Math.toRadians(loc1.longitude);</span>
+<span class="fc" id="L118">        double lat2 = Math.toRadians(loc2.latitude);</span>
+<span class="fc" id="L119">        double lon2 = Math.toRadians(loc2.longitude);</span>
 
-<span class="fc" id="L120">        double angle = Math.acos(Math.sin(lat1) * Math.sin(lat2)</span>
-<span class="fc" id="L121">                               + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));</span>
+<span class="fc" id="L121">        double angle = Math.acos(Math.sin(lat1) * Math.sin(lat2)</span>
+<span class="fc" id="L122">                               + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));</span>
 
-<span class="fc" id="L123">        double nauticalMiles = 60 * Math.toDegrees(angle);</span>
-<span class="fc" id="L124">        double statuteMiles = STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;</span>
-<span class="fc" id="L125">        return statuteMiles;</span>
+<span class="fc" id="L124">        double nauticalMiles = 60 * Math.toDegrees(angle);</span>
+<span class="fc" id="L125">        double statuteMiles = STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;</span>
+<span class="fc" id="L126">        return statuteMiles;</span>
 	}
 
 }
