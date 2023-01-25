@@ -75,10 +75,11 @@ public class User {
 		return visitedLocations;
 	}
 	
-	public void addUserReward(UserReward userReward) {
-//		if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+	public List<UserReward> addUserReward(UserReward userReward) {
+	//	if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
 			userRewards.add(userReward);
-//		}
+	//	}
+		return userRewards;
 	}
 	
 	public List<UserReward> getUserRewards() {

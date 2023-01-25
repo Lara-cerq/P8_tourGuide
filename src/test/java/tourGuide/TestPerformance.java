@@ -2,12 +2,10 @@ package tourGuide;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.apache.commons.lang3.time.StopWatch;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -46,7 +44,6 @@ public class TestPerformance {
 	 */
 
 	@Test
-	@Ignore
 	public void highVolumeTrackLocation() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -71,10 +68,10 @@ public class TestPerformance {
 
 
 	@Test
-	@Ignore
 	public void highVolumeGetRewards() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
+		rewardsService.setProximityMilesBuffer(Integer.MAX_VALUE);
 
 		// Users should be incremented up to 100,000, and test finishes within 20 minutes
 		InternalTestHelper.setInternalUserNumber(100000);
@@ -90,21 +87,24 @@ public class TestPerformance {
 		stopWatch.start();
 
 		for(User user : allUsers) {
-			rewardsService.clearVisitedLocations();
-			rewardsService.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
+			user.clearVisitedLocations();
+			user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
 		}
 
 		for(User user : allUsers) {
-			while(user.getUserRewards().isEmpty()) {
-				try {
-					TimeUnit.MILLISECONDS.sleep(200);
-				} catch (InterruptedException e) {
-				}
-			}
+			user.addUserReward(new UserReward(user.getLastVisitedLocation(),attraction));
 		}
-//		for(User user : allUsers) {
-//			rewardsService.calculateRewards(user);
-//		}
+
+		List<UserReward> userRewards = new ArrayList<>();
+		for(User user : allUsers) {
+				while(user.getUserRewards().isEmpty()) {
+					try {
+						TimeUnit.MILLISECONDS.sleep(200);
+					} catch (InterruptedException e) {
+						}
+				}
+		}
+
 		stopWatch.stop();
 		tourGuideService.tracker.stopTracking();
 

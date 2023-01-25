@@ -44,7 +44,6 @@ public class TestRewardsService {
 	}
 	
 	@Test
-	@Ignore
 	public void isWithinAttractionProximity() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -54,7 +53,6 @@ public class TestRewardsService {
 	
 	 // Needs fixed - can throw ConcurrentModificationException
 	@Test
-	@Ignore
 	public void nearAllAttractions() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());

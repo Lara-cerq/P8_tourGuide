@@ -69,7 +69,8 @@ import tripPricer.Provider;
     
     @RequestMapping(&quot;/getRewards&quot;) 
     public String getRewards(@RequestParam String userName) {
-<span class="nc" id="L72">    	return JsonStream.serialize(tourGuideService.getUserRewards(getUser(userName)));</span>
+
+<span class="nc" id="L73">    	return JsonStream.serialize(tourGuideService.getUserRewards(getUser(userName)));</span>
     }
     
     @RequestMapping(&quot;/getAllCurrentLocations&quot;)
@@ -84,28 +85,28 @@ import tripPricer.Provider;
     	//        ...
     	//     }
 
-<span class="nc" id="L87">        List&lt;User&gt; allUsers= tourGuideService.getAllUsers();</span>
-<span class="nc" id="L88">        UserLocationDto userLocation= new UserLocationDto();</span>
-<span class="nc" id="L89">        List&lt;UserLocationDto&gt; userLocationDtoList=new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L90">        LocationDto location= new LocationDto();</span>
-<span class="nc bnc" id="L91" title="All 2 branches missed.">        for (User user : allUsers) {</span>
-<span class="nc" id="L92">            VisitedLocation visitedLocation= user.getLastVisitedLocation();</span>
-<span class="nc" id="L93">            location=new LocationDto(visitedLocation.location.longitude ,visitedLocation.location.latitude);</span>
-<span class="nc" id="L94">            userLocation=new UserLocationDto(user.getUserId().toString(), location);</span>
-<span class="nc" id="L95">            userLocationDtoList.add(userLocation);</span>
-<span class="nc" id="L96">        }</span>
+<span class="nc" id="L88">        List&lt;User&gt; allUsers= tourGuideService.getAllUsers();</span>
+<span class="nc" id="L89">        UserLocationDto userLocation= new UserLocationDto();</span>
+<span class="nc" id="L90">        List&lt;UserLocationDto&gt; userLocationDtoList=new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L91">        LocationDto location= new LocationDto();</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (User user : allUsers) {</span>
+<span class="nc" id="L93">            VisitedLocation visitedLocation= user.getLastVisitedLocation();</span>
+<span class="nc" id="L94">            location=new LocationDto(visitedLocation.location.longitude ,visitedLocation.location.latitude);</span>
+<span class="nc" id="L95">            userLocation=new UserLocationDto(user.getUserId().toString(), location);</span>
+<span class="nc" id="L96">            userLocationDtoList.add(userLocation);</span>
+<span class="nc" id="L97">        }</span>
 
-<span class="nc" id="L98">        return JsonStream.serialize(userLocationDtoList.toString());</span>
+<span class="nc" id="L99">        return JsonStream.serialize(userLocationDtoList.toString());</span>
     }
     
     @RequestMapping(&quot;/getTripDeals&quot;)
     public String getTripDeals(@RequestParam String userName) {
-<span class="nc" id="L103">    	List&lt;Provider&gt; providers = tourGuideService.getTripDeals(getUser(userName));</span>
-<span class="nc" id="L104">    	return JsonStream.serialize(providers);</span>
+<span class="nc" id="L104">    	List&lt;Provider&gt; providers = tourGuideService.getTripDeals(getUser(userName));</span>
+<span class="nc" id="L105">    	return JsonStream.serialize(providers);</span>
     }
     
     private User getUser(String userName) {
-<span class="nc" id="L108">    	return tourGuideService.getUser(userName);</span>
+<span class="nc" id="L109">    	return tourGuideService.getUser(userName);</span>
     }
    
 

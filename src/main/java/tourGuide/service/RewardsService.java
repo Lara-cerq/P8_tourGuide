@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
@@ -61,18 +62,23 @@ public class RewardsService {
 		for(VisitedLocation visitedLocation : visitedLocationList) {
 			for(Attraction attraction : attractions) {
 				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
-					getUserReward(user, visitedLocation, attraction);
+					setRewardPoints(user, visitedLocation, attraction);
 				}
 			}
 		}
 	}
 
-	public void getUserReward(User user, VisitedLocation visitedLocation, Attraction attraction) {
+	public void setRewardPoints(User user, VisitedLocation visitedLocation, Attraction attraction) {
 		Double distance = getDistance(attraction, visitedLocation.location);
-		if(distance <= proximityMilesBuffer) {
+//	if(distance >= proximityMilesBuffer) {
 			UserReward userReward = new UserReward(visitedLocation, attraction, distance.intValue());
-			setRewardPoints(userReward, attraction, user);
-		}
+		CompletableFuture.supplyAsync(() -> {
+					return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
+				}, executor)
+				.thenAccept(points -> {
+					userReward.setRewardPoints(points);
+				});
+//		}
 	}
 
 	private void setRewardPoints(UserReward userReward, Attraction attraction, User user) {
@@ -81,11 +87,8 @@ public class RewardsService {
 				}, executor)
 				.thenAccept(points -> {
 					userReward.setRewardPoints(points);
-					user.addUserReward(userReward);
-					executor.shutdown();
 				});
 	}
-
 
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
 		return getDistance(attraction, location) > attractionProximityRange ? false : true;

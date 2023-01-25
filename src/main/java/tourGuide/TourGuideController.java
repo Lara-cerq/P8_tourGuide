@@ -69,6 +69,7 @@ public class TourGuideController {
     
     @RequestMapping("/getRewards") 
     public String getRewards(@RequestParam String userName) {
+
     	return JsonStream.serialize(tourGuideService.getUserRewards(getUser(userName)));
     }
     
