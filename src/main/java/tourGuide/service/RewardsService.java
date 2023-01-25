@@ -82,15 +82,6 @@ public class RewardsService {
 //		}
 	}
 
-	private void setRewardPoints(UserReward userReward, Attraction attraction, User user) {
-		CompletableFuture.supplyAsync(() -> {
-					return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
-				}, executor)
-				.thenAccept(points -> {
-					userReward.setRewardPoints(points);
-				});
-	}
-
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
 		return getDistance(attraction, location) > attractionProximityRange ? false : true;
 	}
