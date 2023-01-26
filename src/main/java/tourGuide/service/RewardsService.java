@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,7 @@ public class RewardsService {
 
 	public void calculateRewards(User user) {
 		List<Attraction> attractions = gpsUtil.getAttractions();
-		List<VisitedLocation> visitedLocationList = user.getVisitedLocations();
+		List<VisitedLocation> visitedLocationList = user.getVisitedLocations().stream().collect(Collectors.toList());
 		for(VisitedLocation visitedLocation : visitedLocationList) {
 			for(Attraction attraction : attractions) {
 				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
@@ -80,6 +81,15 @@ public class RewardsService {
 					user.addUserReward(userReward);
 				});
 //		}
+	}
+
+	private void setReward(UserReward userReward, Attraction attraction, User user) {
+		CompletableFuture.supplyAsync(() -> {
+					return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
+				}, executor)
+				.thenAccept(points -> {
+					userReward.setRewardPoints(points);
+				});
 	}
 
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
