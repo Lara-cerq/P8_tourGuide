@@ -1,9 +1,11 @@
 package tourGuide.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -58,11 +60,14 @@ public class RewardsService {
 	}
 
 	public void calculateRewards(User user) {
-		List<Attraction> attractions = gpsUtil.getAttractions();
-		List<VisitedLocation> visitedLocationList = user.getVisitedLocations().stream().collect(Collectors.toList());
+		List<Attraction> attractions = gpsUtil.getAttractions().parallelStream().collect(Collectors.toList());
+		List<VisitedLocation> visitedLocationList = user.getVisitedLocations().parallelStream().collect(Collectors.toList());
+//		List<UserReward> userRewardList=new ArrayList<>();
+//		userRewardList=user.getUserRewards().stream().collect(Collectors.toList());
 		for(VisitedLocation visitedLocation : visitedLocationList) {
 			for(Attraction attraction : attractions) {
-				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
+				Predicate<UserReward> rewardPredicate = r -> r.attraction.attractionName.equals(attraction.attractionName);
+				if(user.getUserRewards().stream().filter(rewardPredicate).collect(Collectors.toList()).size() == 0) {
 					setRewardPoints(user, visitedLocation, attraction);
 				}
 			}

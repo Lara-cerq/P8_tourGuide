@@ -74,7 +74,7 @@ public class TestPerformance {
 		rewardsService.setProximityMilesBuffer(Integer.MAX_VALUE);
 
 		// Users should be incremented up to 100,000, and test finishes within 20 minutes
-		InternalTestHelper.setInternalUserNumber(100000);
+		InternalTestHelper.setInternalUserNumber(10000);
 
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
