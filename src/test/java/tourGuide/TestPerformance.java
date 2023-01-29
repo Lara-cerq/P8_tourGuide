@@ -3,6 +3,7 @@ package tourGuide;
 import static org.junit.Assert.assertTrue;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
@@ -68,7 +69,7 @@ public class TestPerformance {
 
 
 	@Test
-	public void highVolumeGetRewards() {
+	public void highVolumeGetRewards() throws ExecutionException, InterruptedException {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		rewardsService.setProximityMilesBuffer(Integer.MAX_VALUE);
@@ -87,7 +88,6 @@ public class TestPerformance {
 		stopWatch.start();
 
 		for(User user : allUsers) {
-			user.clearVisitedLocations();
 			user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
 		}
 
@@ -106,15 +106,16 @@ public class TestPerformance {
 				}
 		}
 
+		for(User user: allUsers) {
+			assertTrue(user.getUserRewards().size() > 0);
+		}
+
 		stopWatch.stop();
 		tourGuideService.tracker.stopTracking();
 
 		System.out.println("highVolumeGetRewards: Time Elapsed: " + TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()) + " seconds.");
 		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 
-	//	for(User user: allUsers) {
-	//		assertTrue(tourGuideService.getUserRewards(user).size() >= 1);
-	//	}
 
 	}
 }

@@ -3,9 +3,6 @@ package tourGuide.service;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -15,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
+import tourGuide.dto.FiveNearAttractionByUserDto;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
@@ -114,6 +111,31 @@ public class TourGuideService {
 			nearFiveByAttractions.add(attractionInProximity);
 		}
 		return nearFiveByAttractions;
+	}
+
+	public List<FiveNearAttractionByUserDto> getFiveNearAttractions(User user) {
+		List<Attraction> attractions = gpsUtil.getAttractions();
+		List<FiveNearAttractionByUserDto> fiveNearAttractionByUserDtoList = new ArrayList<FiveNearAttractionByUserDto>();
+		for (Attraction attraction : attractions) {
+			FiveNearAttractionByUserDto fiveNearAttractionByUserDto = new FiveNearAttractionByUserDto();
+			VisitedLocation lastLocation = user.getLastVisitedLocation();
+			Double distanceFromUser = rewardsService.getDistance(lastLocation.location, attraction);
+			double attractionLatitude = attraction.latitude;
+			double attractionLongitude = attraction.longitude;
+
+			int rewardPoints = rewardsService.getRewardPoints(attraction, user);
+
+			fiveNearAttractionByUserDto = new FiveNearAttractionByUserDto(attraction.attractionName,attractionLatitude,attractionLongitude,lastLocation.location.latitude,lastLocation.location.longitude, distanceFromUser, rewardPoints);
+
+			fiveNearAttractionByUserDtoList.add(fiveNearAttractionByUserDto);
+		}
+
+		Collections.sort(fiveNearAttractionByUserDtoList, new Comparator<FiveNearAttractionByUserDto>(){
+			public int compare(FiveNearAttractionByUserDto P1, FiveNearAttractionByUserDto P2) {
+				return P1.getDistanceFromUser().compareTo(P2.getDistanceFromUser());
+			}
+		});
+		return fiveNearAttractionByUserDtoList.stream().limit(5).collect(Collectors.toList());
 	}
 	
 	private void addShutDownHook() {

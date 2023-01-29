@@ -34,18 +34,7 @@ public class GpsUtilService {
 			}
 		return gpsUtil.getUserLocation(userId);
 	}
-	
-//	public void userLocation(List<User> userList, TourGuideService tourGuideService) {
-//		ExecutorService executor = Executors.newFixedThreadPool(1000); 
-//		for (User user : userList) {
-//			Runnable runnableTask = () -> {
-//				tourGuideService.getUserLocation(user);
-//			};
-//			executor.execute(runnableTask);
-//		}
-//		executor.shutdown();
-//	}
-	
+
 	public void userLocation(User user, TourGuideService tourGuideService) {
 		CompletableFuture.supplyAsync(() -> {
 		    return gpsUtil.getUserLocation(user.getUserId());

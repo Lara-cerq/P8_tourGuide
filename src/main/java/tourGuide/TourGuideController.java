@@ -1,13 +1,9 @@
 package tourGuide;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import gpsUtil.location.Attraction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jsoniter.output.JsonStream;
 
 import gpsUtil.location.VisitedLocation;
+import tourGuide.dto.LocationDto;
+import tourGuide.dto.UserLocationDto;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
 import tourGuide.user.User;
-import tourGuide.user.UserReward;
 import tripPricer.Provider;
 
 @RestController
@@ -52,19 +49,8 @@ public class TourGuideController {
         //    Note: Attraction reward points can be gathered from RewardsCentral
     //http://localhost:8080/getNearbyAttractions?userName=internalUser1
     @RequestMapping("/getNearbyAttractions") 
-    public ResponseEntity getNearbyAttractions(@RequestParam String userName) {
-        VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
-        NearbyAttractionDto nearbyAttraction= new NearbyAttractionDto();
-        List<NearbyAttractionDto> attractionList=new ArrayList<>();
-        for(Attraction attraction : tourGuideService.getNearByAttractions(visitedLocation) ) {
-            double attractionLatLon=attraction.latitude/attraction.longitude;
-            double userLocationLatLon= visitedLocation.location.latitude/visitedLocation.location.longitude;
-            double distanceUserAttraction= rewardsService.getDistance(attraction, visitedLocation.location);
-            int userRewards= rewardsService.getRewardPoints(attraction, getUser(userName));
-            nearbyAttraction= new NearbyAttractionDto(attraction.attractionName, attractionLatLon, userLocationLatLon, distanceUserAttraction, userRewards);
-            attractionList.add(nearbyAttraction);
-        }
-        return ResponseEntity.status(200).body(attractionList);
+    public String getNearbyAttractions(@RequestParam String userName) {
+        return JsonStream.serialize((tourGuideService.getFiveNearAttractions(getUser(userName))));
     }
     
     @RequestMapping("/getRewards") 

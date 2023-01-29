@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FiveNearAttractionByUserDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TourGuide</a> &gt; <a href="index.source.html" class="el_package">tourGuide.dto</a> &gt; <span class="el_source">FiveNearAttractionByUserDto.java</span></div><h1>FiveNearAttractionByUserDto.java</h1><pre class="source lang-java linenums">package tourGuide.dto;
+
+public class FiveNearAttractionByUserDto
+{
+    private String attractionName;
+    private double attractionLatitude;
+    private double attractionLongitude;
+    private double userLatitude;
+    private double userLongitude;
+    private Double distanceFromUser;
+    private int rewardPoints;
+
+    public void setAttractionName(String attractionName) {
+<span class="nc" id="L14">        this.attractionName = attractionName;</span>
+<span class="nc" id="L15">    }</span>
+
+    public void setAttractionLatitude(double attractionLatitude) {
+<span class="nc" id="L18">        this.attractionLatitude = attractionLatitude;</span>
+<span class="nc" id="L19">    }</span>
+
+    public void setAttractionLongitude(double attractionLongitude) {
+<span class="nc" id="L22">        this.attractionLongitude = attractionLongitude;</span>
+<span class="nc" id="L23">    }</span>
+
+    public void setUserLatitude(double userLatitude) {
+<span class="nc" id="L26">        this.userLatitude = userLatitude;</span>
+<span class="nc" id="L27">    }</span>
+
+    public void setUserLongitude(double userLongitude) {
+<span class="nc" id="L30">        this.userLongitude = userLongitude;</span>
+<span class="nc" id="L31">    }</span>
+
+    public void setDistanceFromUser(Double distanceFromUser) {
+<span class="nc" id="L34">        this.distanceFromUser = distanceFromUser;</span>
+<span class="nc" id="L35">    }</span>
+
+    public void setRewardPoints(int rewardPoints) {
+<span class="nc" id="L38">        this.rewardPoints = rewardPoints;</span>
+<span class="nc" id="L39">    }</span>
+
+    public String getAttractionName() {
+<span class="nc" id="L42">        return attractionName;</span>
+    }
+
+    public double getAttractionLatitude() {
+<span class="nc" id="L46">        return attractionLatitude;</span>
+    }
+
+    public double getAttractionLongitude() {
+<span class="nc" id="L50">        return attractionLongitude;</span>
+    }
+
+    public double getUserLatitude() {
+<span class="nc" id="L54">        return userLatitude;</span>
+    }
+
+    public double getUserLongitude() {
+<span class="nc" id="L58">        return userLongitude;</span>
+    }
+
+    public Double getDistanceFromUser() {
+<span class="nc" id="L62">        return distanceFromUser;</span>
+    }
+
+    public int getRewardPoints() {
+<span class="nc" id="L66">        return rewardPoints;</span>
+    }
+
+<span class="nc" id="L69">    public FiveNearAttractionByUserDto(String attractionName, double attractionLatitude, double attractionLongitude, double userLatitude, double userLongitude, Double distanceFromUser, int rewardPoints) {</span>
+<span class="nc" id="L70">        this.attractionName = attractionName;</span>
+<span class="nc" id="L71">        this.attractionLatitude = attractionLatitude;</span>
+<span class="nc" id="L72">        this.attractionLongitude = attractionLongitude;</span>
+<span class="nc" id="L73">        this.userLatitude = userLatitude;</span>
+<span class="nc" id="L74">        this.userLongitude = userLongitude;</span>
+<span class="nc" id="L75">        this.distanceFromUser = distanceFromUser;</span>
+<span class="nc" id="L76">        this.rewardPoints = rewardPoints;</span>
+<span class="nc" id="L77">    }</span>
+
+<span class="nc" id="L79">    public FiveNearAttractionByUserDto() {</span>
+<span class="nc" id="L80">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L84">        return &quot;Tourist attraction:&quot; + attractionName + &quot;, Tourist attractions latitude :&quot; + attractionLatitude + &quot;, Tourist attractions longitude :&quot; + attractionLongitude</span>
+                + &quot;, User's location latitude:&quot; + userLatitude + &quot;, User's location longitude:&quot; + userLongitude + &quot;, Distance between the user's location and attraction:&quot; + distanceFromUser + &quot;, Reward Points:&quot;
+                + rewardPoints;
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

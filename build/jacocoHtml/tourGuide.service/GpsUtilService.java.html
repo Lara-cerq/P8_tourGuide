@@ -34,24 +34,13 @@ public class GpsUtilService {
 <span class="nc" id="L34">			}</span>
 <span class="nc" id="L35">		return gpsUtil.getUserLocation(userId);</span>
 	}
-	
-//	public void userLocation(List&lt;User&gt; userList, TourGuideService tourGuideService) {
-//		ExecutorService executor = Executors.newFixedThreadPool(1000); 
-//		for (User user : userList) {
-//			Runnable runnableTask = () -&gt; {
-//				tourGuideService.getUserLocation(user);
-//			};
-//			executor.execute(runnableTask);
-//		}
-//		executor.shutdown();
-//	}
-	
+
 	public void userLocation(User user, TourGuideService tourGuideService) {
-<span class="fc" id="L50">		CompletableFuture.supplyAsync(() -&gt; {</span>
-<span class="nc" id="L51">		    return gpsUtil.getUserLocation(user.getUserId());</span>
+<span class="nc" id="L39">		CompletableFuture.supplyAsync(() -&gt; {</span>
+<span class="nc" id="L40">		    return gpsUtil.getUserLocation(user.getUserId());</span>
 		}, executor)
-<span class="pc" id="L53">			.thenAccept(visitedLocation -&gt; { tourGuideService.trackUserLocation(user); });</span>
-<span class="fc" id="L54">	}</span>
+<span class="nc" id="L42">			.thenAccept(visitedLocation -&gt; { tourGuideService.trackUserLocation(user); });</span>
+<span class="nc" id="L43">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,9 +1,7 @@
 package tourGuide.user;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -17,10 +15,12 @@ public class User {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private List<VisitedLocation> visitedLocations = new ArrayList<>();
-	private List<UserReward> userRewards = new ArrayList<>();
+	private List<UserReward> userRewards = Collections.synchronizedList(new ArrayList<>());
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 	private Lock userLocationListLock= new ReentrantLock();
+
+	List<UserReward> rewards = new CopyOnWriteArrayList<>(userRewards);
 	public User(UUID userId, String userName, String phoneNumber, String emailAddress) {
 		this.userId = userId;
 		this.userName = userName;
@@ -75,15 +75,14 @@ public class User {
 		return visitedLocations;
 	}
 	
-	public List<UserReward> addUserReward(UserReward userReward) {
-	//	if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
-			userRewards.add(userReward);
-	//	}
-		return userRewards;
+	public void addUserReward(UserReward userReward) {
+		if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+			rewards.add(userReward);
+		}
 	}
 	
 	public List<UserReward> getUserRewards() {
-		return userRewards;
+		return rewards;
 	}
 	
 	public UserPreferences getUserPreferences() {
@@ -95,6 +94,9 @@ public class User {
 	}
 
 	public VisitedLocation getLastVisitedLocation() {
+		if (visitedLocations.isEmpty()) {
+			return null;
+		}
 		return visitedLocations.get(visitedLocations.size() - 1);
 	}
 	
