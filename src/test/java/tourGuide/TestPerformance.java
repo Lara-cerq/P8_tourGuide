@@ -48,7 +48,7 @@ public class TestPerformance {
 	public void highVolumeTrackLocation() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
-		// Users should be incremented up to 100,000, and test finishes within 15 minutes
+
 		InternalTestHelper.setInternalUserNumber(100000);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
@@ -69,34 +69,35 @@ public class TestPerformance {
 
 
 	@Test
-	public void highVolumeGetRewards() throws ExecutionException, InterruptedException {
+	public void highVolumeGetRewards() {
 		GpsUtilService gpsUtil = new GpsUtilService();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
-		rewardsService.setProximityMilesBuffer(Integer.MAX_VALUE);
 
-		// Users should be incremented up to 100,000, and test finishes within 20 minutes
-		InternalTestHelper.setInternalUserNumber(10000);
-
+		InternalTestHelper.setInternalUserNumber(100000);
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
 		Attraction attraction = gpsUtil.getAttractions().get(0);
-
 		List<User> allUsers = new ArrayList<>();
 		allUsers = tourGuideService.getAllUsers();
-
-		StopWatch stopWatch = new StopWatch();
-		stopWatch.start();
-
 		for(User user : allUsers) {
+			user.clearVisitedLocations();
 			user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
 		}
 
 		for(User user : allUsers) {
-				rewardsService.calculateRewards(user);
+			rewardsService.calculateRewards(user);
 		}
 
-		for(User user: allUsers) {
-			assertTrue(user.getUserRewards().size() > 0);
+		for(User user : allUsers) {
+			while(user.getUserRewards().isEmpty()) {
+				System.out.println("ICI");
+				try {
+					TimeUnit.MILLISECONDS.sleep(200);
+				} catch (InterruptedException e) {
+				}
+			}
 		}
 
 		stopWatch.stop();
@@ -104,7 +105,6 @@ public class TestPerformance {
 
 		System.out.println("highVolumeGetRewards: Time Elapsed: " + TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()) + " seconds.");
 		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
-
 
 	}
 }

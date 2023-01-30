@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tourGuide.TestPerformance" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-01-30T13:40:20" hostname="LAPTOP-UPBU1241" time="0.961">
+<testsuite name="tourGuide.TestPerformance" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-01-30T20:55:33" hostname="LAPTOP-UPBU1241" time="1086.899">
   <properties/>
-  <testcase name="highVolumeTrackLocation" classname="tourGuide.TestPerformance" time="0.961"/>
-  <system-out><![CDATA[14:40:21.036 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
-14:40:21.054 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
-14:40:21.311 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 5000 internal test users.
-14:40:21.314 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
-14:40:21.333 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 5000 users.
-highVolumeTrackLocation: Time Elapsed: 0 seconds.
+  <testcase name="highVolumeGetRewards" classname="tourGuide.TestPerformance" time="1086.899"/>
+  <system-out><![CDATA[21:55:33.996 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
+21:55:34.009 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
+21:55:35.050 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 100000 internal test users.
+21:55:35.051 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
+21:55:35.079 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+highVolumeGetRewards: Time Elapsed: 1086 seconds.
 ]]></system-out>
-  <system-err><![CDATA[janv. 30, 2023 2:40:21 PM org.javamoney.moneta.DefaultMonetaryContextFactory createMonetaryContextNonNullConfig
+  <system-err><![CDATA[janv. 30, 2023 9:55:34 PM org.javamoney.moneta.DefaultMonetaryContextFactory createMonetaryContextNonNullConfig
 INFOS: Using custom MathContext: precision=256, roundingMode=HALF_EVEN
 ]]></system-err>
 </testsuite>

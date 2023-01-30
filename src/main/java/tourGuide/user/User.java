@@ -61,9 +61,7 @@ public class User {
 	}
 	
 	public List<VisitedLocation> addToVisitedLocations(VisitedLocation visitedLocation) {
-		userLocationListLock.lock();
 		visitedLocations.add(visitedLocation);
-		userLocationListLock.unlock();
 		return visitedLocations;
 	}
 	public List<VisitedLocation> getVisitedLocations() {
@@ -75,11 +73,8 @@ public class User {
 		return visitedLocations;
 	}
 	
-	public List<UserReward> addUserReward(UserReward userReward) {
-	//	if(userRewards.stream().filter(r -> !r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+	public void addUserReward(UserReward userReward) {
 			rewards.add(userReward);
-	//	}
-		return userRewards;
 	}
 	
 	public List<UserReward> getUserRewards() {
