@@ -47,14 +47,15 @@ public class RewardsService {
 	}
 
 	public void calculateRewards(User user) {
-		List<Attraction> attractions = gpsUtil.getAttractions().parallelStream().collect(Collectors.toList());
-		List<VisitedLocation> visitedLocationList = user.getVisitedLocations().parallelStream().collect(Collectors.toList());
-//		List<UserReward> userRewardList=new ArrayList<>();
-//		userRewardList=user.getUserRewards().stream().collect(Collectors.toList());
+		List<Attraction> attractions = gpsUtil.getAttractions();
+		List<VisitedLocation> visitedLocationList = user.getVisitedLocations().stream().collect(Collectors.toList());
 		for(VisitedLocation visitedLocation : visitedLocationList) {
 			for(Attraction attraction : attractions) {
-				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
-					setRewardPoints(user, visitedLocation, attraction);
+				Predicate<UserReward> rewardPredicate = r -> r.attraction.attractionName.equals(attraction.attractionName);
+				if(user.getUserRewards().stream().filter(rewardPredicate).count() == 0) {
+					if(nearAttraction(visitedLocation, attraction)) {
+						setRewardPoints(user, visitedLocation, attraction);
+					}
 				}
 			}
 		}

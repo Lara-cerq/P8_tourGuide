@@ -94,10 +94,10 @@ public class User {
 <span class="nc" id="L94">	}</span>
 
 	public VisitedLocation getLastVisitedLocation() {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">		if (visitedLocations.isEmpty()) {</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		if (visitedLocations.isEmpty()) {</span>
 <span class="nc" id="L98">			return null;</span>
 		}
-<span class="nc" id="L100">		return visitedLocations.get(visitedLocations.size() - 1);</span>
+<span class="fc" id="L100">		return visitedLocations.get(visitedLocations.size() - 1);</span>
 	}
 	
 	public void setTripDeals(List&lt;Provider&gt; tripDeals) {

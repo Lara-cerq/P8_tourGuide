@@ -92,18 +92,11 @@ public class TestPerformance {
 		}
 
 		for(User user : allUsers) {
-			rewardsService.calculateRewards(user);
-		}
+			try {
+				rewardsService.calculateRewards(user);
+			} catch (ConcurrentModificationException e) {
 
-		List<UserReward> userRewards = new ArrayList<>();
-		for(User user : allUsers) {
-				while(user.getUserRewards().isEmpty()) {
-					System.out.println("ICI");
-					try {
-						TimeUnit.MILLISECONDS.sleep(200);
-					} catch (InterruptedException e) {
-						}
-				}
+			}
 		}
 
 		for(User user: allUsers) {

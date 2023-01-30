@@ -16,6 +16,8 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import tourGuide.dto.FiveNearAttractionByUserDto;
+import tourGuide.dto.LocationDto;
+import tourGuide.dto.UserLocationDto;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
@@ -98,22 +100,7 @@ public class TourGuideService {
 		gpsUtil.userLocation(user, this);
 	}
 
-	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
-		ArrayList<Attraction> nearbyAttractions = new ArrayList<>();
-		List<Attraction> nearFiveByAttractions = new ArrayList<>();
-		for (Attraction attraction : gpsUtil.getAttractions()) {
-			if (rewardsService.isWithinAttractionProximityDistance(attraction, visitedLocation.location)>0) {
-				nearbyAttractions.add(attraction);
-			}
-		}
-		for (int i = 0; i <5; i++) {
-			Attraction attractionInProximity = nearbyAttractions.get(i);
-			nearFiveByAttractions.add(attractionInProximity);
-		}
-		return nearFiveByAttractions;
-	}
-
-	public List<FiveNearAttractionByUserDto> getFiveNearAttractions(User user) {
+	public List<FiveNearAttractionByUserDto> getNearByAttractions(User user) {
 		List<Attraction> attractions = gpsUtil.getAttractions();
 		List<FiveNearAttractionByUserDto> fiveNearAttractionByUserDtoList = new ArrayList<FiveNearAttractionByUserDto>();
 		for (Attraction attraction : attractions) {
@@ -136,6 +123,20 @@ public class TourGuideService {
 			}
 		});
 		return fiveNearAttractionByUserDtoList.stream().limit(5).collect(Collectors.toList());
+	}
+
+	public List<UserLocationDto> getAllCurrentLocations() {
+		List<User> allUsers= getAllUsers();
+		UserLocationDto userLocation= new UserLocationDto();
+		List<UserLocationDto> userLocationDtoList=new ArrayList<>();
+		LocationDto location= new LocationDto();
+		for (User user : allUsers) {
+			VisitedLocation visitedLocation= user.getLastVisitedLocation();
+			location=new LocationDto(visitedLocation.location.longitude ,visitedLocation.location.latitude);
+			userLocation=new UserLocationDto(user.getUserId().toString(), location);
+			userLocationDtoList.add(userLocation);
+		}
+		return userLocationDtoList;
 	}
 	
 	private void addShutDownHook() {

@@ -50,7 +50,7 @@ public class TourGuideController {
     //http://localhost:8080/getNearbyAttractions?userName=internalUser1
     @RequestMapping("/getNearbyAttractions") 
     public String getNearbyAttractions(@RequestParam String userName) {
-        return JsonStream.serialize((tourGuideService.getFiveNearAttractions(getUser(userName))));
+        return JsonStream.serialize((tourGuideService.getNearByAttractions(getUser(userName))));
     }
     
     @RequestMapping("/getRewards") 
@@ -71,18 +71,8 @@ public class TourGuideController {
     	//        ...
     	//     }
 
-        List<User> allUsers= tourGuideService.getAllUsers();
-        UserLocationDto userLocation= new UserLocationDto();
-        List<UserLocationDto> userLocationDtoList=new ArrayList<>();
-        LocationDto location= new LocationDto();
-        for (User user : allUsers) {
-            VisitedLocation visitedLocation= user.getLastVisitedLocation();
-            location=new LocationDto(visitedLocation.location.longitude ,visitedLocation.location.latitude);
-            userLocation=new UserLocationDto(user.getUserId().toString(), location);
-            userLocationDtoList.add(userLocation);
-        }
 
-        return JsonStream.serialize(userLocationDtoList.toString());
+        return JsonStream.serialize(tourGuideService.getAllCurrentLocations());
     }
     
     @RequestMapping("/getTripDeals")
