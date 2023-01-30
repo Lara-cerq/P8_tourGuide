@@ -92,11 +92,7 @@ public class TestPerformance {
 		}
 
 		for(User user : allUsers) {
-			try {
 				rewardsService.calculateRewards(user);
-			} catch (ConcurrentModificationException e) {
-
-			}
 		}
 
 		for(User user: allUsers) {

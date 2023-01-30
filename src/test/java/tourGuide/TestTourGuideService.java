@@ -137,7 +137,6 @@ public class TestTourGuideService {
 
 		List<UserLocationDto> usersLocationList = tourGuideService.getAllCurrentLocations();
 
-		//ASSERT:
 		assertEquals(100, usersLocationList.size());
 
 	}

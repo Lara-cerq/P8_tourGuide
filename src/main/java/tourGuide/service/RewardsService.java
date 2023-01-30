@@ -46,6 +46,12 @@ public class RewardsService {
 		this.proximityMilesBuffer = proximityMilesBuffer;
 	}
 
+	public void addVisitedLocation(VisitedLocation visitedLocation) {
+		CompletableFuture.supplyAsync(() -> {
+					return user.addToVisitedLocations(visitedLocation);
+				}, executor);
+	}
+
 	public void calculateRewards(User user) {
 		List<Attraction> attractions = gpsUtil.getAttractions();
 		List<VisitedLocation> visitedLocationList = user.getVisitedLocations().stream().collect(Collectors.toList());
@@ -53,9 +59,7 @@ public class RewardsService {
 			for(Attraction attraction : attractions) {
 				Predicate<UserReward> rewardPredicate = r -> r.attraction.attractionName.equals(attraction.attractionName);
 				if(user.getUserRewards().stream().filter(rewardPredicate).count() == 0) {
-					if(nearAttraction(visitedLocation, attraction)) {
 						setRewardPoints(user, visitedLocation, attraction);
-					}
 				}
 			}
 		}

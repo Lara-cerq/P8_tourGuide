@@ -72,7 +72,7 @@ import tripPricer.Provider;
     	//     }
 
 
-<span class="nc" id="L75">        return JsonStream.serialize(tourGuideService.getAllCurrentLocations());</span>
+<span class="nc" id="L75">        return JsonStream.serialize(tourGuideService.getAllCurrentLocations().toString());</span>
     }
     
     @RequestMapping(&quot;/getTripDeals&quot;)

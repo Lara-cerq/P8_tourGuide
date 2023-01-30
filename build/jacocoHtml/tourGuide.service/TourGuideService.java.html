@@ -92,51 +92,51 @@ public class TourGuideService {
 <span class="fc" id="L92">		} catch (NumberFormatException nfe) {</span>
 <span class="nc" id="L93">		}</span>
 <span class="fc" id="L94">		user.addToVisitedLocations(visitedLocation);</span>
-<span class="fc" id="L95">		rewardsService.calculateRewards(user);</span>
-<span class="fc" id="L96">		return visitedLocation;</span>
+<span class="nc" id="L95">		rewardsService.calculateRewards(user);</span>
+<span class="nc" id="L96">		return visitedLocation;</span>
 	}
 
 	public void userLocation(User user) {
-<span class="nc" id="L100">		gpsUtil.userLocation(user, this);</span>
-<span class="nc" id="L101">	}</span>
+<span class="fc" id="L100">		gpsUtil.userLocation(user, this);</span>
+<span class="fc" id="L101">	}</span>
 
 	public List&lt;FiveNearAttractionByUserDto&gt; getNearByAttractions(User user) {
-<span class="fc" id="L104">		List&lt;Attraction&gt; attractions = gpsUtil.getAttractions();</span>
-<span class="fc" id="L105">		List&lt;FiveNearAttractionByUserDto&gt; fiveNearAttractionByUserDtoList = new ArrayList&lt;FiveNearAttractionByUserDto&gt;();</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">		for (Attraction attraction : attractions) {</span>
-<span class="fc" id="L107">			FiveNearAttractionByUserDto fiveNearAttractionByUserDto = new FiveNearAttractionByUserDto();</span>
-<span class="fc" id="L108">			VisitedLocation lastLocation = user.getLastVisitedLocation();</span>
-<span class="fc" id="L109">			Double distanceFromUser = rewardsService.getDistance(lastLocation.location, attraction);</span>
-<span class="fc" id="L110">			double attractionLatitude = attraction.latitude;</span>
-<span class="fc" id="L111">			double attractionLongitude = attraction.longitude;</span>
+<span class="nc" id="L104">		List&lt;Attraction&gt; attractions = gpsUtil.getAttractions();</span>
+<span class="nc" id="L105">		List&lt;FiveNearAttractionByUserDto&gt; fiveNearAttractionByUserDtoList = new ArrayList&lt;FiveNearAttractionByUserDto&gt;();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		for (Attraction attraction : attractions) {</span>
+<span class="nc" id="L107">			FiveNearAttractionByUserDto fiveNearAttractionByUserDto = new FiveNearAttractionByUserDto();</span>
+<span class="nc" id="L108">			VisitedLocation lastLocation = user.getLastVisitedLocation();</span>
+<span class="nc" id="L109">			Double distanceFromUser = rewardsService.getDistance(lastLocation.location, attraction);</span>
+<span class="nc" id="L110">			double attractionLatitude = attraction.latitude;</span>
+<span class="nc" id="L111">			double attractionLongitude = attraction.longitude;</span>
 
-<span class="fc" id="L113">			int rewardPoints = rewardsService.getRewardPoints(attraction, user);</span>
+<span class="nc" id="L113">			int rewardPoints = rewardsService.getRewardPoints(attraction, user);</span>
 
-<span class="fc" id="L115">			fiveNearAttractionByUserDto = new FiveNearAttractionByUserDto(attraction.attractionName,attractionLatitude,attractionLongitude,lastLocation.location.latitude,lastLocation.location.longitude, distanceFromUser, rewardPoints);</span>
+<span class="nc" id="L115">			fiveNearAttractionByUserDto = new FiveNearAttractionByUserDto(attraction.attractionName,attractionLatitude,attractionLongitude,lastLocation.location.latitude,lastLocation.location.longitude, distanceFromUser, rewardPoints);</span>
 
-<span class="fc" id="L117">			fiveNearAttractionByUserDtoList.add(fiveNearAttractionByUserDto);</span>
-<span class="fc" id="L118">		}</span>
+<span class="nc" id="L117">			fiveNearAttractionByUserDtoList.add(fiveNearAttractionByUserDto);</span>
+<span class="nc" id="L118">		}</span>
 
-<span class="fc" id="L120">		Collections.sort(fiveNearAttractionByUserDtoList, new Comparator&lt;FiveNearAttractionByUserDto&gt;(){</span>
+<span class="nc" id="L120">		Collections.sort(fiveNearAttractionByUserDtoList, new Comparator&lt;FiveNearAttractionByUserDto&gt;(){</span>
 			public int compare(FiveNearAttractionByUserDto P1, FiveNearAttractionByUserDto P2) {
-<span class="fc" id="L122">				return P1.getDistanceFromUser().compareTo(P2.getDistanceFromUser());</span>
+<span class="nc" id="L122">				return P1.getDistanceFromUser().compareTo(P2.getDistanceFromUser());</span>
 			}
 		});
-<span class="fc" id="L125">		return fiveNearAttractionByUserDtoList.stream().limit(5).collect(Collectors.toList());</span>
+<span class="nc" id="L125">		return fiveNearAttractionByUserDtoList.stream().limit(5).collect(Collectors.toList());</span>
 	}
 
 	public List&lt;UserLocationDto&gt; getAllCurrentLocations() {
-<span class="fc" id="L129">		List&lt;User&gt; allUsers= getAllUsers();</span>
-<span class="fc" id="L130">		UserLocationDto userLocation= new UserLocationDto();</span>
-<span class="fc" id="L131">		List&lt;UserLocationDto&gt; userLocationDtoList=new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L132">		LocationDto location= new LocationDto();</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">		for (User user : allUsers) {</span>
-<span class="fc" id="L134">			VisitedLocation visitedLocation= user.getLastVisitedLocation();</span>
-<span class="fc" id="L135">			location=new LocationDto(visitedLocation.location.longitude ,visitedLocation.location.latitude);</span>
-<span class="fc" id="L136">			userLocation=new UserLocationDto(user.getUserId().toString(), location);</span>
-<span class="fc" id="L137">			userLocationDtoList.add(userLocation);</span>
-<span class="fc" id="L138">		}</span>
-<span class="fc" id="L139">		return userLocationDtoList;</span>
+<span class="nc" id="L129">		List&lt;User&gt; allUsers= getAllUsers();</span>
+<span class="nc" id="L130">		UserLocationDto userLocation= new UserLocationDto();</span>
+<span class="nc" id="L131">		List&lt;UserLocationDto&gt; userLocationDtoList=new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L132">		LocationDto location= new LocationDto();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		for (User user : allUsers) {</span>
+<span class="nc" id="L134">			VisitedLocation visitedLocation= user.getLastVisitedLocation();</span>
+<span class="nc" id="L135">			location=new LocationDto(visitedLocation.location.longitude ,visitedLocation.location.latitude);</span>
+<span class="nc" id="L136">			userLocation=new UserLocationDto(user.getUserId().toString(), location);</span>
+<span class="nc" id="L137">			userLocationDtoList.add(userLocation);</span>
+<span class="nc" id="L138">		}</span>
+<span class="nc" id="L139">		return userLocationDtoList;</span>
 	}
 	
 	private void addShutDownHook() {
